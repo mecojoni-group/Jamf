@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Variables
+url="https://dl.google.com/drive-file-stream/GoogleDrive.dmg"
+dmgfile="GoogleDrive.dmg"
+volname="Install Google Drive"
+
+# Download
+/usr/bin/curl -k -o /tmp/$dmgfile $url
+/usr/bin/hdiutil attach /tmp/$dmgfile -nobrowse -quiet
+
+# Install
+sudo installer -pkg "/Volumes/${volname}/GoogleDrive.pkg" -target /
+
+# Cleanup
+/usr/bin/hdiutil detach $(/bin/df | /usr/bin/grep "${volname}" | awk '{print $1}') -quiet
+
+exit 0
