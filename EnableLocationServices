@@ -1,0 +1,7 @@
+#!/bin/bash
+uuid=$("/usr/sbin/system_profiler" SPHardwareDataType | grep "Hardware UUID" | awk '{ print $3 }')
+prefDomain="com.apple.locationd.$uuid"
+byHostPath="/var/db/locationd/Library/Preferences/ByHost/com.apple.locationd"
+
+sudo -u "_locationd" defaults -currentHost write "${prefDomain}" LocationServicesEnabled -int 1
+sudo defaults write "${byHostPath}" LocationServicesEnabled -int 1
